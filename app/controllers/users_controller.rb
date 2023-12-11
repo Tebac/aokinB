@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info] # 共通の@user = User.find(params[:id])をshow,edit,update,destroy,edit_basic_info,update_basic_infoアクションで使えるようにしている
-  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info] # ログインユーザーじゃなければ一覧、詳細、編集、更新、削除、勤怠情報編集、勤怠情報更新できない
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_basic_info, :update_basic_info] # ログインユーザーじゃなければ一覧、詳細、編集、更新、削除、勤怠情報編集、勤怠情報更新できない
   before_action :correct_user, only: [:edit, :update] # 現在のユーザーは自分の情報のみ編集可
   before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info] # 管理権限あるものだけdestroy,edit_basic_info,update_basic_infoアクションできる
   
@@ -48,6 +48,12 @@ class UsersController < ApplicationController
   end
   
   def update_basic_info
+    if @user.update(basic_info_params)
+      flash[:success] = "#{@user.name}の基本情報を更新しました。"
+    else
+      flash[:danger] = "#{@user.name}の更新は失敗しました。<br>" + @user.error.full_messages.join("<br>") # join連結メソッド <br>要素を区切るメソッド
+    end
+    redirect_to users_url # 一覧へ遷移
   end
   
   private
@@ -56,6 +62,9 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation) # requireは必要とする。permitは許可する。
     end
     
+    def basic_info_params
+      params.require(:user).permit(:department, :basic_time, :work_time)
+    end
     # beforeフィルター
     
     # paramsハッシュからユーザーを取得します。
@@ -66,9 +75,9 @@ class UsersController < ApplicationController
     # ログイン済みのユーザーか確認します。
     def logged_in_user
       unless logged_in? # ログインしていなければ下の処理実行
-      store_location # sessions_helper参照 ページの記憶
-      flash[:danger] = "ログインしてください。"
-      redirect_to login_url # ログインページへ遷移
+        store_location # sessions_helper参照 ページの記憶
+        flash[:danger] = "ログインしてください。"
+        redirect_to login_url # ログインページへ遷移
       end
     end
     

@@ -8,6 +8,31 @@ gem 'faker' # サンプルユーザー作成
 gem 'bootstrap-sass'
 gem 'will_paginate', '~> 3.3' # ページネーション機能追加 バージョン3.3以下じゃないと機能しない
 gem 'bootstrap-will_paginate' # ページネーションデザイン調整
+gem "sprockets-rails"
+gem "sqlite3", "~> 1.4"
+gem "puma", ">= 5.0"
+gem "importmap-rails"
+gem "turbo-rails"
+gem "stimulus-rails"
+gem "jbuilder"
+gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
+gem "bootsnap", require: false
+
+group :development, :test do
+  gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
+end
+
+group :development do
+  gem "web-console"
+end
+
+group :test do
+  gem "capybara"
+  gem "selenium-webdriver"
+end
+
+gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
+
 # 以下のコメントアウトは8章テキストどおり実施するとアプリケーション読み込まれないためコメントアウトしたもの
 # gem 'puma',         '~> 3.7'
 # gem 'sass-rails',   '~> 5.0'
@@ -34,27 +59,5 @@ gem 'bootstrap-will_paginate' # ページネーションデザイン調整
 # Mac環境でもこのままでOKです
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem "sprockets-rails"
-gem "sqlite3", "~> 1.4"
-gem "puma", ">= 5.0"
-gem "importmap-rails"
-gem "turbo-rails"
-gem "stimulus-rails"
-gem "jbuilder"
-gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
-gem "bootsnap", require: false
 
-group :development, :test do
-  gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
-end
 
-group :development do
-  gem "web-console"
-end
-
-group :test do
-  gem "capybara"
-  gem "selenium-webdriver"
-end
-
-gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
